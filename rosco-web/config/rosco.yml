@@ -161,6 +161,11 @@ azure:
         shortDescription: 7
         detailedDescription: OpenLogic CentOS 7.1.20150731
         packageType: rpm
+    - baseImage:
+        id: windows
+        shortDescription: server 2012
+        detailedDescription: Windows Server 2012 R2
+        packageType: zip
 
 docker:
   enabled: ${DOCKER_ENABLED:false}
