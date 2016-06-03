@@ -10,8 +10,8 @@
     "azure_image_offer": "",
     "azure_image_sku": "",
     "azure_location": "",
+    "azure_vm_size": "",
     "azure_image_name": "",
-    "azure_os_type": "",
 
     "appversion": "",
     "build_host": "",
@@ -24,31 +24,31 @@
   "builders": [{
     "type": "azure-arm",
 
-    "client_id": "{{user `azure_client_id`}}",
-    "client_secret": "{{user `azure_client_secret`}}",
-    "resource_group_name": "{{user `azure_resource_group`}}",
-    "storage_account": "{{user `azure_storage_account`}}",
-    "subscription_id": "{{user `azure_subscription_id`}}",
-    "tenant_id": "{{user `azure_tenant_id`}}",
+    "client_id": "{{user `client_id`}}",
+    "client_secret": "{{user `client_secret`}}",
+    "resource_group_name": "{{user `resource_group`}}",
+    "storage_account": "{{user `storage_account`}}",
+    "subscription_id": "{{user `subscription_id`}}",
+    "tenant_id": "{{user `tenant_id`}}",
 
     "capture_container_name": "images",
-    "capture_name_prefix": "{{user `azure_image_name`}}",
+    "capture_name_prefix": "{{user `appversion`}}",
 
-    "os_type": "Linux",
+    "os_type": "Windows",
     "image_publisher": "{{user `azure_image_publisher`}}",
     "image_offer": "{{user `azure_image_offer`}}",
     "image_sku": "{{user `azure_image_sku`}}",
 
     "location": "{{user `azure_location`}}",
-    "vm_size": "Standard_A2"
+    "vm_size": "{{user `azure_vm_size`}}"
   }],
   "provisioners": [{
-    "type": "shell",
+    "type": "widnows-shell",
     "script": "{{user `configDir`}}/install_packages.sh",
-    "environment_vars": [
+    "environment_vars": [   // NOTE: These may change
       "repository={{user `repository`}}",
-      "package_type={{user `package_type`}}",
-      "packages={{user `packages`}}",
+      // "package_type={{user `package_type`}}",
+      // "packages={{user `packages`}}",
       "upgrade={{user `upgrade`}}"
     ],
     "pause_before": "30s"
