@@ -73,7 +73,8 @@ class BakeRequest {
 
   static enum PackageType {
     RPM('rpm', '-'),
-    DEB('deb', '=')
+    DEB('deb', '='),
+    ZIP('zip', '~')
 
     private final String packageType
     private final String versionDelimiter
