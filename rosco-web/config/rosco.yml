@@ -1,10 +1,10 @@
 server:
-  port: 8087
+  port: 8089
 
 rush:
   baseUrl: http://localhost:8085
   # TODO(duftler): Figure out the right way to set this dynamically.
-  configDir: /some/path/to/config/packer
+  configDir: /home/ambak/spinnakerFull/rosco/rosco-web/config/packer 
 
 executionStatusToBakeStates:
   associations:
@@ -148,6 +148,14 @@ aws:
 
 azure:
   enabled: ${AZURE_ENABLED:false}
+#  accounts:
+#    - name: azure-cred1
+#      clientId: ${AZURE_CLIENT_ID}
+#      appKey: ${AZURE_APPKEY}
+#      tenantId: ${AZURE_TENANT_ID}
+#      subscriptionId: ${AZURE_SUBSCRIPTION_ID)
+#      packerResourceGroup: "abakerRG"
+#      storageAccount: "abakerrg4058"
   bakeryDefaults:
     templateFile: azure-linux.json
     baseImages:
@@ -171,8 +179,12 @@ azure:
         packageType: rpm
     - baseImage:
         id: windows
-        shortDescription: server 2012
+        shortDescription: 2012-R2
         detailedDescription: Windows Server 2012 R2
+        publisher: MicrosoftWindowsServer
+        offer: WindowsServer
+        sku: 2012-R2-Datacenter
+        version: 4.0.20151214
         packageType: zip
 
 docker:
