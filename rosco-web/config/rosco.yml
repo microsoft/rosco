@@ -148,14 +148,6 @@ aws:
 
 azure:
   enabled: ${AZURE_ENABLED:false}
-#  accounts:
-#    - name: azure-cred1
-#      clientId: ${AZURE_CLIENT_ID}
-#      appKey: ${AZURE_APPKEY}
-#      tenantId: ${AZURE_TENANT_ID}
-#      subscriptionId: ${AZURE_SUBSCRIPTION_ID)
-#      packerResourceGroup: "abakerRG"
-#      storageAccount: "abakerrg4058"
   bakeryDefaults:
     templateFile: azure-linux.json
     baseImages:
@@ -185,7 +177,7 @@ azure:
         offer: WindowsServer
         sku: 2012-R2-Datacenter
         version: 4.0.20151214
-        packageType: zip
+        packageType: nupkg
 
 docker:
   enabled: ${DOCKER_ENABLED:false}
