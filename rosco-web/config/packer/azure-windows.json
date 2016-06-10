@@ -43,7 +43,7 @@
     "vm_size": "{{user `azure_vm_size`}}"
   }],
   "provisioners": [{
-    "type": "widnows-shell",
+    "type": "windows-shell",
     "script": "{{user `configDir`}}/install_packages.sh",
     "environment_vars": [   // NOTE: These may change
       "repository={{user `repository`}}",
