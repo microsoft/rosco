@@ -12,6 +12,8 @@
     "azure_location": "",
     "azure_image_name": "",
     "azure_os_type": "",
+    "azure_provisioner_type": "",
+    "azure_script": "",
 
     "appversion": "",
     "build_host": "",
@@ -34,7 +36,7 @@
     "capture_container_name": "images",
     "capture_name_prefix": "{{user `azure_image_name`}}",
 
-    "os_type": "Linux",
+    "os_type": "{{user 'azure_os_type'}}",
     "image_publisher": "{{user `azure_image_publisher`}}",
     "image_offer": "{{user `azure_image_offer`}}",
     "image_sku": "{{user `azure_image_sku`}}",
@@ -43,8 +45,8 @@
     "vm_size": "Standard_A2"
   }],
   "provisioners": [{
-    "type": "shell",
-    "script": "{{user `configDir`}}/install_packages.sh",
+    "type": "{{user 'azure_provisioner_type'}}",
+    "script": "{{user `configDir`}}/{{user 'azure_script'}}",
     "environment_vars": [
       "repository={{user `repository`}}",
       "package_type={{user `package_type`}}",
