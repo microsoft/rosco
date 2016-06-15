@@ -149,7 +149,7 @@ aws:
 azure:
   enabled: ${AZURE_ENABLED:false}
   bakeryDefaults:
-    templateFile: azure-linux.json
+    templateFile: azure-windows.json
     baseImages:
     - baseImage:
         id: ubuntu
