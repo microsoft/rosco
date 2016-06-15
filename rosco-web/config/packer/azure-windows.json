@@ -6,11 +6,13 @@
     "azure_storage_account": "",
     "azure_subscription_id": "",
     "azure_tenant_id": "",
+    "azure_object_id": "",
+
+    "azure_location": "",
+
     "azure_image_publisher": "",
     "azure_image_offer": "",
     "azure_image_sku": "",
-    "azure_location": "",
-    "azure_vm_size": "",
     "azure_image_name": "",
 
     "appversion": "",
@@ -19,37 +21,40 @@
     "package_type": "",
     "packages": "",
     "upgrade": "",
-    "configDir": null
+    "configDir": ""
   },
   "builders": [{
     "type": "azure-arm",
 
-    "client_id": "{{user `client_id`}}",
-    "client_secret": "{{user `client_secret`}}",
-    "resource_group_name": "{{user `resource_group`}}",
-    "storage_account": "{{user `storage_account`}}",
-    "subscription_id": "{{user `subscription_id`}}",
-    "tenant_id": "{{user `tenant_id`}}",
+    "client_id": "{{user `azure_client_id`}}",
+    "client_secret": "{{user `azure_client_secret`}}",
+    "resource_group_name": "{{user `azure_resource_group`}}",
+    "storage_account": "{{user `azure_storage_account`}}",
+    "subscription_id": "{{user `azure_subscription_id`}}",
+    "tenant_id": "{{user `azure_tenant_id`}}",
+    "object_id": "{{user `azure_object_id`}}",
 
     "capture_container_name": "images",
-    "capture_name_prefix": "{{user `appversion`}}",
+    "capture_name_prefix": "packer",
 
     "os_type": "Windows",
     "image_publisher": "{{user `azure_image_publisher`}}",
     "image_offer": "{{user `azure_image_offer`}}",
     "image_sku": "{{user `azure_image_sku`}}",
 
+    "communicator": "winrm",
+    "winrm_use_ssl": "true",
+    "winrm_insecure": "true",
+    "winrm_timeout": "3m",
+    "winrm_username": "packer",
+
     "location": "{{user `azure_location`}}",
-    "vm_size": "{{user `azure_vm_size`}}"
+    "vm_size": "Standard_A2"
   }],
   "provisioners": [{
-    "type": "windows-shell",
-    "script": "{{user `configDir`}}/install_packages.sh",
-    "environment_vars": [   // NOTE: These may change
-      "repository={{user `repository`}}",
-      // "package_type={{user `package_type`}}",
-      // "packages={{user `packages`}}",
-      "upgrade={{user `upgrade`}}"
+    "type": "powershell",
+    "inline": [
+      "dir c:\\"
     ],
     "pause_before": "30s"
   }]
