@@ -6,14 +6,13 @@
     "azure_storage_account": "",
     "azure_subscription_id": "",
     "azure_tenant_id": "",
+    "azure_object_id": "",
+
     "azure_image_publisher": "",
     "azure_image_offer": "",
     "azure_image_sku": "",
     "azure_location": "",
     "azure_image_name": "",
-    "azure_os_type": "",
-    "azure_provisioner_type": "",
-    "azure_script": "",
 
     "appversion": "",
     "build_host": "",
@@ -36,7 +35,7 @@
     "capture_container_name": "images",
     "capture_name_prefix": "{{user `azure_image_name`}}",
 
-    "os_type": "{{user 'azure_os_type'}}",
+    "os_type": "Linux",
     "image_publisher": "{{user `azure_image_publisher`}}",
     "image_offer": "{{user `azure_image_offer`}}",
     "image_sku": "{{user `azure_image_sku`}}",
@@ -45,8 +44,8 @@
     "vm_size": "Standard_A2"
   }],
   "provisioners": [{
-    "type": "{{user 'azure_provisioner_type'}}",
-    "script": "{{user `configDir`}}/{{user 'azure_script'}}",
+    "type": "shell",
+    "inline": "echo foo",
     "environment_vars": [
       "repository={{user `repository`}}",
       "package_type={{user `package_type`}}",
