@@ -82,12 +82,6 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
     // TODO(larrygug): Presently rosco is only supporting a single account. Need to update to support a named account
     def selectedAccount = azureConfigurationProperties?.accounts?.get(0)
 
-    def provisioner_type = (bakeRequest?.base_os == "windows") ? "powershell" : "shell"
-
-    def script_name = (provisioner_type == "windows") ? "install_packages.ps1" : "install_packages.sh"
-
-    def os_type = (bakeRequest?.base_os == "windows") ? "Windows" : "Linux"
-
     def parameterMap = [
       azure_client_id: selectedAccount?.clientId,
       azure_client_secret: selectedAccount?.appKey,
@@ -95,6 +89,7 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
       azure_storage_account: selectedAccount?.storageAccount,
       azure_subscription_id: selectedAccount?.subscriptionId,
       azure_tenant_id: selectedAccount?.tenantId,
+      azure_object_id: selectedAccount?.objectId,
 
       azure_location       : region,
 
@@ -102,9 +97,6 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
       azure_image_offer: selectedImage?.baseImage?.offer,
       azure_image_sku: selectedImage?.baseImage?.sku,
       azure_image_name: "$bakeRequest.build_number-$bakeRequest.base_name",
-      azure_os_type: bakeRequest?.base_os,
-      azure_provisioner_type: provisioner_type,
-      azure_script: script_name,
     ]
 
     return parameterMap
