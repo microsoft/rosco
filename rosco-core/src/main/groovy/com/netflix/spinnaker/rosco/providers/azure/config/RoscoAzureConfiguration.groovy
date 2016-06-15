@@ -87,5 +87,6 @@ class RoscoAzureConfiguration {
     String subscriptionId
     String packerResourceGroup
     String storageAccount
+    String objectId
   }
 }
