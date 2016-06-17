@@ -84,7 +84,30 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
     // TODO(larrygug): Presently rosco is only supporting a single account. Need to update to support a named account
     def selectedAccount = azureConfigurationProperties?.accounts?.get(0)
 
-    bakeRequest.template_file_name = (selectedImage?.baseImage?.osType.toLowerCase() == "windows") ? "azure-windows.json" : "azure-linux.json"
+    //bakeRequest.template_file_name = (selectedImage?.baseImage?.osType.toLowerCase() == "windows") ? "azure-windows.json" : "azure-linux.json"
+
+    def os_type, provisioner_type, script_name, communicator, winrm_use_ssl, winrm_insecure, winrm_timeout, winrm_username
+
+    if (selectedImage?.baseImage?.osType.toLowerCase() == "windows") {
+      os_type = "Windows"
+      provisioner_type = "powershell"
+      script_name = "install.ps1"
+      communicator = "winrm"
+      winrm_use_ssl = "true"
+      winrm_insecure = "true"
+      winrm_timeout = "3m"
+      winrm_username = "packer"
+    }
+    else {
+      os_type = "Linux"
+      provisioner_type = "shell"
+      script_name = "install.sh"
+      communicator = null
+      winrm_use_ssl = null
+      winrm_insecure = null
+      winrm_timeout = null
+      winrm_username = null
+    }
 
     def parameterMap = [
       azure_client_id: selectedAccount?.clientId,
@@ -99,7 +122,14 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
       azure_image_offer: selectedImage?.baseImage?.offer,
       azure_image_sku: selectedImage?.baseImage?.sku,
       azure_image_name: "$bakeRequest.build_number-$bakeRequest.base_name",
-      azure_os_type: selectedImage?.baseImage.osType,
+      azure_os_type: os_type,
+      azure_provisioner_type: provisioner_type,
+      azure_script_name: script_name,
+      azure_communicator: communicator,
+      azure_winrm_use_ssl: winrm_use_ssl,
+      azure_winrm_insecure: winrm_insecure,
+      azure_winrm_timeout: winrm_timeout,
+      azure_winrm_username: winrm_username,
     ]
 
     return parameterMap
