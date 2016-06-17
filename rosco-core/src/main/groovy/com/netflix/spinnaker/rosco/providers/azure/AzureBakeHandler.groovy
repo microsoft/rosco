@@ -84,7 +84,7 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
     // TODO(larrygug): Presently rosco is only supporting a single account. Need to update to support a named account
     def selectedAccount = azureConfigurationProperties?.accounts?.get(0)
 
-    bakeRequest.template_file_name = (bakeRequest.base_os.toLowerCase() == "windows") ? "azure-windows.json" : "azure-linux.json"
+    bakeRequest.template_file_name = (selectedImage?.baseImage?.osType.toLowerCase() == "windows") ? "azure-windows.json" : "azure-linux.json"
 
     def parameterMap = [
       azure_client_id: selectedAccount?.clientId,
@@ -99,6 +99,7 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
       azure_image_offer: selectedImage?.baseImage?.offer,
       azure_image_sku: selectedImage?.baseImage?.sku,
       azure_image_name: "$bakeRequest.build_number-$bakeRequest.base_name",
+      azure_os_type: selectedImage?.baseImage.osType,
     ]
 
     return parameterMap
