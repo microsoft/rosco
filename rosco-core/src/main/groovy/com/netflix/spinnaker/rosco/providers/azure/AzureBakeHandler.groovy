@@ -79,10 +79,12 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
   @Override
   Map buildParameterMap(String region, Object virtualizationSettings, String imageName, BakeRequest bakeRequest) {
 
-    def selectedImage = azureBakeryDefaults?.baseImages?.find { it.baseImage.id == bakeRequest.base_os }
+    def selectedImage = azureBakeryDefaults?.baseImages?.find {it.baseImage.id == bakeRequest.base_os}
 
     // TODO(larrygug): Presently rosco is only supporting a single account. Need to update to support a named account
     def selectedAccount = azureConfigurationProperties?.accounts?.get(0)
+
+    bakeRequest.template_file_name = (bakeRequest.base_os.toLowerCase() == "windows") ? "azure-windows.json" : "azure-linux.json"
 
     def parameterMap = [
       azure_client_id: selectedAccount?.clientId,
