@@ -42,8 +42,8 @@ abstract class CloudProviderBakeHandler {
   @Value('${yumRepository:}')
   String yumRepository
 
-  @Value('${nugetRepository:}')
-  String nugetRepository
+  @Value('${zipRepository:}')
+  String zipRepository
 
   @Value('${templatesNeedingRoot:}')
   List<String> templatesNeedingRoot
@@ -151,8 +151,8 @@ abstract class CloudProviderBakeHandler {
       parameterMap.repository = debianRepository
     } else if (yumRepository && selectedOptions.baseImage.packageType == BakeRequest.PackageType.RPM) {
       parameterMap.repository = yumRepository
-    } else if (nugetRepository && selectedOptions.baseImage.packageType == BakeRequest.PackageType.NUPKG) {
-      paramaterMap.repository = nugetRepository
+    } else if (zipRepository && selectedOptions.baseImage.packageType == BakeRequest.PackageType.ZIP) {
+      paramaterMap.repository = zipRepository
     }
 
     parameterMap.package_type = selectedOptions.baseImage.packageType.packageType

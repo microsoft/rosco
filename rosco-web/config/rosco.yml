@@ -156,7 +156,7 @@ azure:
         sku: 2012-R2-Datacenter
         version: 4.0.20151214
         osType: Windows
-        packageType: nupkg
+        packageType: zip
 
 docker:
   enabled: ${DOCKER_ENABLED:false}
