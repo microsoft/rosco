@@ -9,7 +9,6 @@
     "azure_object_id": "",
 
     "azure_location": "",
-
     "azure_image_publisher": "",
     "azure_image_offer": "",
     "azure_image_sku": "",
@@ -21,7 +20,7 @@
     "package_type": "",
     "packages": "",
     "upgrade": "",
-    "configDir": ""
+    "configDir": null
   },
   "builders": [{
     "type": "azure-arm",
@@ -35,7 +34,7 @@
     "object_id": "{{user `azure_object_id`}}",
 
     "capture_container_name": "images",
-    "capture_name_prefix": "packer",
+    "capture_name_prefix": "{{user 'azure_image_name'}}",
 
     "os_type": "Windows",
     "image_publisher": "{{user `azure_image_publisher`}}",
@@ -53,7 +52,7 @@
   }],
   "provisioners": [{
     "type": "powershell",
-    "script": "{{user `configDir`}}/install_packages.sh",
+    "script": "{{user `configDir`}}/install_packages.ps1",
     "environment_vars": [
       "repository={{user `repository`}}",
       "package_type={{user `package_type`}}",

@@ -14,6 +14,15 @@
     "azure_location": "",
     "azure_image_name": "",
 
+    "azure_os_type": "",
+    "azure_provisioner_type": "",
+
+    "azure_communicator": null,
+    "azure_winrm_use_ssl": null,
+    "azure_winrm_insecure": null,
+    "azure_winrm_timeout": null,
+    "azure_winrm_username": null,
+
     "appversion": "",
     "build_host": "",
     "repository": "",
@@ -31,20 +40,27 @@
     "storage_account": "{{user `azure_storage_account`}}",
     "subscription_id": "{{user `azure_subscription_id`}}",
     "tenant_id": "{{user `azure_tenant_id`}}",
+    "object_id": "{{user `azure_object_id`}}",
 
     "capture_container_name": "images",
     "capture_name_prefix": "{{user `azure_image_name`}}",
 
-    "os_type": "Linux",
+    "os_type": "{{user 'os_type'}}",
     "image_publisher": "{{user `azure_image_publisher`}}",
     "image_offer": "{{user `azure_image_offer`}}",
     "image_sku": "{{user `azure_image_sku`}}",
+
+    "communicator": "winrm",
+    "winrm_use_ssl": "true",
+    "winrm_insecure": "true",
+    "winrm_timeout": "3m",
+    "winrm_username": "packer",
 
     "location": "{{user `azure_location`}}",
     "vm_size": "Standard_A2"
   }],
   "provisioners": [{
-    "type": "shell",
+    "type": "{{user 'azure_provisioner_type'}}",
     "script": "{{user `configDir`}}/install_packages.sh",
     "environment_vars": [
       "repository={{user `repository`}}",
