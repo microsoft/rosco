@@ -102,11 +102,11 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
       os_type = "Linux"
       provisioner_type = "shell"
       script_name = "install.sh"
-      communicator = null
-      winrm_use_ssl = null
-      winrm_insecure = null
-      winrm_timeout = null
-      winrm_username = null
+      communicator = ""
+      winrm_use_ssl = ""
+      winrm_insecure = ""
+      winrm_timeout = ""
+      winrm_username = ""
     }
 
     def parameterMap = [
@@ -129,7 +129,7 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
       azure_winrm_use_ssl: winrm_use_ssl,
       azure_winrm_insecure: winrm_insecure,
       azure_winrm_timeout: winrm_timeout,
-      azure_winrm_username: winrm_username,
+      azure_winrm_username: winrm_username
     ]
 
     return parameterMap
