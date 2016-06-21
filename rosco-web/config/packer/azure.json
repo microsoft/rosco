@@ -18,11 +18,11 @@
     "azure_provisioner_type": "",
     "azure_script_name": "",
 
-    "azure_communicator": null,
-    "azure_winrm_use_ssl": null,
-    "azure_winrm_insecure": null,
-    "azure_winrm_timeout": null,
-    "azure_winrm_username": null,
+    "azure_communicator": "",
+    "azure_winrm_use_ssl": "",
+    "azure_winrm_insecure": "",
+    "azure_winrm_timeout": "",
+    "azure_winrm_username": "",
 
     "appversion": "",
     "build_host": "",
