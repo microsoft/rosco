@@ -36,7 +36,7 @@
     "capture_container_name": "images",
     "capture_name_prefix": "{{user `azure_image_name`}}",
 
-    "os_type": "{{user `azure_os_type`}}",
+    "os_type": "Linux",
     "image_publisher": "{{user `azure_image_publisher`}}",
     "image_offer": "{{user `azure_image_offer`}}",
     "image_sku": "{{user `azure_image_sku`}}",
