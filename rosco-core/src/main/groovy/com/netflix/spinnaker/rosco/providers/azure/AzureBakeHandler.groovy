@@ -86,12 +86,12 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
 
     //bakeRequest.template_file_name = (selectedImage?.baseImage?.osType.toLowerCase() == "windows") ? "azure-windows.json" : "azure-linux.json"
 
-    def os_type, provisioner_type, script_name, communicator, winrm_use_ssl, winrm_insecure, winrm_timeout, winrm_username
+    def os_type, provisioner, script_name, communicator, winrm_use_ssl, winrm_insecure, winrm_timeout, winrm_username
 
-    if (selectedImage?.baseImage?.osType.toLowerCase() == "windows") {
+    if (selectedImage?.baseImage?.osType?.equalsIgnoreCase("windows")) {
       os_type = "Windows"
-      provisioner_type = "powershell"
-      script_name = "install.ps1"
+      provisioner = "powershell"
+      script_name = "install_packages.ps1"
       communicator = "winrm"
       winrm_use_ssl = "true"
       winrm_insecure = "true"
@@ -100,8 +100,8 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
     }
     else {
       os_type = "Linux"
-      provisioner_type = "shell"
-      script_name = "install.sh"
+      provisioner = "shell"
+      script_name = "install_packages.sh"
       communicator = ""
       winrm_use_ssl = ""
       winrm_insecure = ""
@@ -123,7 +123,7 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
       azure_image_sku: selectedImage?.baseImage?.sku,
       azure_image_name: "$bakeRequest.build_number-$bakeRequest.base_name",
       azure_os_type: os_type,
-      azure_provisioner_type: provisioner_type,
+      azure_provisioner: provisioner,
       azure_script_name: script_name,
       azure_communicator: communicator,
       azure_winrm_use_ssl: winrm_use_ssl,

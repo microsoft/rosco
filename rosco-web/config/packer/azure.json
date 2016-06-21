@@ -15,7 +15,7 @@
     "azure_image_name": "",
 
     "azure_os_type": "",
-    "azure_provisioner_type": "",
+    "azure_provisioner": "",
     "azure_script_name": "",
 
     "azure_communicator": "",
@@ -46,29 +46,28 @@
     "capture_container_name": "images",
     "capture_name_prefix": "{{user `azure_image_name`}}",
 
-    "os_type": "{{user 'os_type'}}",
+    "os_type": "{{user `azure_os_type`}}",
     "image_publisher": "{{user `azure_image_publisher`}}",
     "image_offer": "{{user `azure_image_offer`}}",
     "image_sku": "{{user `azure_image_sku`}}",
 
-    "communicator": "winrm",
-    "winrm_use_ssl": "true",
-    "winrm_insecure": "true",
-    "winrm_timeout": "3m",
-    "winrm_username": "packer",
+    "communicator": "{{user `azure_communicator`}}",
+    "winrm_use_ssl": "{{user `azure_winrm_use_ssl`}}",
+    "winrm_insecure": "{{user `azure_winrm_insecure`}}",
+    "winrm_timeout": "{{user `azure_winrm_timeout`}}",
+    "winrm_username": "{{user `azure_winrm_username`}}",
 
     "location": "{{user `azure_location`}}",
     "vm_size": "Standard_A2"
   }],
   "provisioners": [{
-    "type": "{{user 'azure_provisioner_type'}}",
-    "script": "{{user `configDir`}}/{{user 'script_name'}}",
+    "script": "{{user `configDir`}}/{{user `azure_script_name`}}",
+    "type": "{{user `azure_provisioner`}}",
     "environment_vars": [
       "repository={{user `repository`}}",
       "package_type={{user `package_type`}}",
       "packages={{user `packages`}}",
       "upgrade={{user `upgrade`}}"
-    ],
-    "pause_before": "30s"
+    ]
   }]
 }

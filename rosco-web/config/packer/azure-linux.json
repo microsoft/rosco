@@ -6,16 +6,14 @@
     "azure_storage_account": "",
     "azure_subscription_id": "",
     "azure_tenant_id": "",
-    "azure_object_id": "",
 
     "azure_image_publisher": "",
     "azure_image_offer": "",
     "azure_image_sku": "",
     "azure_location": "",
     "azure_image_name": "",
-
+    "azure_provisioner": "",
     "azure_os_type": "",
-    "azure_provisioner_type": "",
 
     "appversion": "",
     "build_host": "",
@@ -23,7 +21,7 @@
     "package_type": "",
     "packages": "",
     "upgrade": "",
-    "configDir": ""
+    "configDir": null
   },
   "builders": [{
     "type": "azure-arm",
@@ -38,7 +36,7 @@
     "capture_container_name": "images",
     "capture_name_prefix": "{{user `azure_image_name`}}",
 
-    "os_type": "Linux",
+    "os_type": "{{user `azure_os_type`}}",
     "image_publisher": "{{user `azure_image_publisher`}}",
     "image_offer": "{{user `azure_image_offer`}}",
     "image_sku": "{{user `azure_image_sku`}}",
@@ -47,8 +45,8 @@
     "vm_size": "Standard_A2"
   }],
   "provisioners": [{
-    "type": "{{user 'azure_provisioner_type'}}",
-    "script": "{{user `configDir`}}/install_packages.sh",
+    "type": "shell",
+    "script": "{{user `configDir`}}/{{user `azure_script_name`}}",
     "environment_vars": [
       "repository={{user `repository`}}",
       "package_type={{user `package_type`}}",
