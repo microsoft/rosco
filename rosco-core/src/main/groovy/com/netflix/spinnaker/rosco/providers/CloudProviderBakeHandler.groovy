@@ -178,7 +178,7 @@ abstract class CloudProviderBakeHandler {
 
     def finalTemplateFileName = bakeRequest.template_file_name ?: templateFileName
 
-    if (bakeRequest?.cloud_provider_type == "azure") {
+    if (bakeRequest?.cloud_provider_type == BakeRequest.CloudProviderType.azure) {
       if (bakeRequest?.base_os?.toLowerCase() == "windows") finalTemplateFileName = "azure-windows.json"
       else finalTemplateFileName = "azure-linux.json"
     }
