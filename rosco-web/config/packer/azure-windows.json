@@ -34,7 +34,7 @@
     "object_id": "{{user `azure_object_id`}}",
 
     "capture_container_name": "images",
-    "capture_name_prefix": "{{user 'azure_image_name'}}",
+    "capture_name_prefix": "{{user `azure_image_name`}}",
 
     "os_type": "Windows",
     "image_publisher": "{{user `azure_image_publisher`}}",
