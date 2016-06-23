@@ -35,10 +35,11 @@ class AzureBakeHandlerSpec extends Specification{
   private static final String CLIENT_ID = "123ABC-456DEF"
   private static final String IMAGE_PUBLISHER = "Canonical"
   private static final String CLIENT_SECRET = "blahblah"
-  private static final String RESOURCE_GROUP =  "resGroup"
+  private static final String RESOURCE_GROUP = "resGroup"
   private static final String STORAGE_ACCOUNT = "packerStorage"
-  private static final String SUBSCRIPTION_ID =  "123ABC"
+  private static final String SUBSCRIPTION_ID = "123ABC"
   private static final String TENANT_ID = "DEF456"
+  private static final String OBJECT_ID = "GHI789"
   private static final String IMAGE_OFFER = "UbuntuServer"
   private static final String IMAGE_SKU = "14.04.3-LTS"
   private static final String BUILD_NUMBER = "42"
@@ -85,6 +86,24 @@ class AzureBakeHandlerSpec extends Specification{
       ]
     ]
 
+    def azureBakeryWindowsJson = [
+      templateFile: "azure-windows.json",
+      baseImages: [
+        [
+          baseImage: [
+            id: "windows",
+            shortDescription: "2012-R2",
+            detailedDescription: "Windows Server 2012 R2",
+            publisher: IMAGE_PUBLISHER,
+            offer: IMAGE_OFFER,
+            sku: IMAGE_SKU,
+            version: "4.0.20151214",
+            packageType: "ZIP",
+          ]
+        ]
+      ]
+    ]
+
     def azureConfigurationPropertiesJson = [
       accounts: [
         [
@@ -94,7 +113,8 @@ class AzureBakeHandlerSpec extends Specification{
           tenantId: TENANT_ID,
           subscriptionId: SUBSCRIPTION_ID,
           packerResourceGroup: RESOURCE_GROUP,
-          storageAccount: STORAGE_ACCOUNT
+          storageAccount: STORAGE_ACCOUNT,
+          objectId: OBJECT_ID
         ]
       ]
     ]
@@ -210,5 +230,61 @@ class AzureBakeHandlerSpec extends Specification{
     then:
     1 * imageNameFactoryMock.deriveImageNameAndAppVersion(bakeRequest, _) >> [targetImageName, null, PACKAGES_NAME]
     1 * packerCommandFactoryMock.buildPackerCommand("", parameterMap, "$configDir/azure-linux.json")
+  }
+
+  void 'produces packer command with all required parameters for windows'() {
+    setup:
+    def imageNameFactoryMock = Mock(ImageNameFactory)
+    def packerCommandFactoryMock = Mock(PackerCommandFactory)
+    def bakeRequest = new BakeRequest(user: "someuser@gmail.com",
+            package_name: PACKAGES_NAME,
+            base_os: "windows",
+            cloud_provider_type: BakeRequest.CloudProviderType.azure,
+            template_file_name: "azure-windows.json",
+            build_number: BUILD_NUMBER,
+            base_name: BUILD_NAME)
+    def targetImageName = "myapp"
+    def parameterMap = [
+            azure_client_id: CLIENT_ID,
+            azure_client_secret: CLIENT_SECRET,
+            azure_resource_group: RESOURCE_GROUP,
+            azure_storage_account: STORAGE_ACCOUNT,
+            azure_subscription_id: SUBSCRIPTION_ID,
+            azure_tenant_id: TENANT_ID,
+            azure_object_id: OBJECT_ID,
+            azure_location: REGION,
+            azure_image_publisher: IMAGE_PUBLISHER,
+            azure_image_offer: IMAGE_OFFER,
+            azure_image_sku: IMAGE_SKU,
+            azure_image_name: IMAGE_NAME,
+            azure_os_type: "Windows",
+            azure_provisioner: "powershell",
+            azure_script_name: "install_packages.ps1",
+            azure_communicator: "winrm",
+            azure_winrm_use_ssl: "true",
+            azure_winrm_insecure: "true",
+            azure_winrm_timeout: "3m",
+            azure_winrm_username: "packer",
+            repository: DEBIAN_REPOSITORY,
+            package_type: BakeRequest.PackageType.DEB.packageType,
+            packages: PACKAGES_NAME,
+            configDir: configDir,
+
+    ]
+
+    @Subject
+    AzureBakeHandler azureBakeHandler = new AzureBakeHandler(configDir: configDir,
+            azureBakeryDefaults: azureBakeryDefaults,
+            imageNameFactory: imageNameFactoryMock,
+            packerCommandFactory: packerCommandFactoryMock,
+            debianRepository: DEBIAN_REPOSITORY,
+            azureConfigurationProperties: azureConfigurationProperties)
+
+    when:
+    azureBakeHandler.producePackerCommand(REGION, bakeRequest)
+
+    then:
+    1 * imageNameFactoryMock.deriveImageNameAndAppVersion(bakeRequest, _) >> [targetImageName, null, PACKAGES_NAME]
+    1 * packerCommandFactoryMock.buildPackerCommand("", parameterMap, "$configDir/azure-windows.json")
   }
 }
