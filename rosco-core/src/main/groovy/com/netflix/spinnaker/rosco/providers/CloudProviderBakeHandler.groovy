@@ -143,7 +143,10 @@ abstract class CloudProviderBakeHandler {
     def virtualizationSettings = findVirtualizationSettings(region, bakeRequest)
 
     BakeOptions.Selected selectedOptions = new BakeOptions.Selected(baseImage: findBaseImage(bakeRequest))
-    def (imageName, appVersionStr, packagesParameter) = imageNameFactory.deriveImageNameAndAppVersion(bakeRequest, selectedOptions)
+
+    def imageName, appVersionStr, packagesParameter
+
+    if (!zipRepository) (imageName, appVersionStr, packagesParameter) = imageNameFactory.deriveImageNameAndAppVersion(bakeRequest, selectedOptions)
 
     def parameterMap = buildParameterMap(region, virtualizationSettings, imageName, bakeRequest)
 
@@ -152,7 +155,7 @@ abstract class CloudProviderBakeHandler {
     } else if (yumRepository && selectedOptions.baseImage.packageType == BakeRequest.PackageType.RPM) {
       parameterMap.repository = yumRepository
     } else if (zipRepository && selectedOptions.baseImage.packageType == BakeRequest.PackageType.ZIP) {
-      paramaterMap.repository = zipRepository
+      parameterMap.repository = zipRepository
     }
 
     parameterMap.package_type = selectedOptions.baseImage.packageType.packageType

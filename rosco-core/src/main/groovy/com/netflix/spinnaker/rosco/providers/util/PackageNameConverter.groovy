@@ -89,12 +89,28 @@ class PackageNameConverter {
     osPackageName
   }
 
+  public static OsPackageName parseZipPackageName(String fullyQualifiedPackageName) {
+    OsPackageName osPackageName = new OsPackageName()
+
+    osPackageName.with {
+      name = fullyQualifiedPackageName
+
+      version = " "
+      release = " "
+      arch = " "
+    }
+
+    osPackageName
+  }
+
   public static OsPackageName buildOsPackageName(BakeRequest.PackageType packageType, String packageName) {
     switch(packageType) {
       case BakeRequest.PackageType.DEB:
         return PackageNameConverter.parseDebPackageName(packageName)
       case BakeRequest.PackageType.RPM:
         return PackageNameConverter.parseRpmPackageName(packageName)
+      case BakeRequest.PackageType.ZIP:
+        return PackageNameConverter.parseZipPackageName(packageName)          
       default:
         throw new IllegalArgumentException("Unrecognized packageType '$packageType'.")
     }
