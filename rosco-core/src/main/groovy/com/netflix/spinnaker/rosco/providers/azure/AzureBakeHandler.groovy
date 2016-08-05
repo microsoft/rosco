@@ -121,7 +121,7 @@ public class AzureBakeHandler extends CloudProviderBakeHandler{
       azure_image_publisher: selectedImage?.baseImage?.publisher,
       azure_image_offer: selectedImage?.baseImage?.offer,
       azure_image_sku: selectedImage?.baseImage?.sku,
-      azure_image_name: "$bakeRequest.build_number-$bakeRequest.base_name",
+      azure_image_prefix: "$bakeRequest.build_number-$bakeRequest.base_name",
       azure_os_type: os_type,
       azure_provisioner: provisioner,
       azure_script_name: script_name,

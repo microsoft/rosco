@@ -1,12 +1,3 @@
-# Strip the first part to avoid credentials leaks.
-#echo repository=$(echo $repository | %{$_ -replace '[.*@^]+', ''}
-#echo package_type=$package_type
-#echo packages=$packages
-#echo upgrade=$upgrade
-
-# Strip leading/trailing quotes if present.
-#repository = echo $repository | %{$_ - replace '[]+', ''}
-
 # Public location of zip file
 echo "repository=$repository"
 
@@ -29,3 +20,8 @@ foreach($item in $zip.items()){
 If (Test-Path $storageDir\install.ps1) {
     powershell -executionpolicy bypass -File .\install.ps1
 }
+
+# Generalize Image
+#cd %WINDIR%\system32\sysprep
+#Sysprep /generalize
+& "$Env:SystemRoot\system32\sysprep\sysprep.exe" /generalize /oobe /shutdown

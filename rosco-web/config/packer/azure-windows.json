@@ -12,7 +12,7 @@
     "azure_image_publisher": "",
     "azure_image_offer": "",
     "azure_image_sku": "",
-    "azure_image_name": "",
+    "azure_image_prefix": "",
 
     "appversion": "",
     "build_host": "",
@@ -34,7 +34,7 @@
     "object_id": "{{user `azure_object_id`}}",
 
     "capture_container_name": "images",
-    "capture_name_prefix": "{{user `azure_image_name`}}",
+    "capture_name_prefix": "{{user `azure_image_prefix`}}",
 
     "os_type": "Windows",
     "image_publisher": "{{user `azure_image_publisher`}}",
@@ -45,14 +45,17 @@
     "winrm_use_ssl": "true",
     "winrm_insecure": "true",
     "winrm_timeout": "3m",
-    "winrm_username": "packer",
-
+    "winrm_username": "spinnakeruser",
+    "winrm_password": "!Qnti**234",
+    "ssh_username": "spinnakeruser",
+    "ssh_password": "!Qnti**234",
     "location": "{{user `azure_location`}}",
-    "vm_size": "Standard_A2"
+    "vm_size": "Standard_DS1_v2"
   }],
   "provisioners": [{
     "type": "powershell",
     "script": "{{user `configDir`}}/install_packages.ps1",
+    "remote_path": "/tmp/script.ps1",
     "environment_vars": [
       "repository={{user `repository`}}",
       "package_type={{user `package_type`}}",
